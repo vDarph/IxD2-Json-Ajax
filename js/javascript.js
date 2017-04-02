@@ -1,18 +1,14 @@
  var language = "it";
  $("#eng").click(function () {
      language = "en";
-     alert('il sito è in inglese');
+     console.log('il sito è in inglese');
  })
  $('#ita').click(function () {
      language = "it";
-     alert('il sito è in italiano');
+     console.log('il sito è in italiano');
  });
  $("#searchterm").keyup(function (e) {
      var q = $("#searchterm").val();
-     //
-     //';
-     //$.getJSON("http://" +lang + ".wikipedia.org/w/api.php?callback=?",
-     //
      console.log(language)
      var URL = "http://" + language + ".wikipedia.org/w/api.php?callback=?";
      var DATA = {
@@ -29,17 +25,8 @@
                  $("#results").append("<div class='tab'><h2><a href='http://" + language + ".wikipedia.org/wiki/" + encodeURIComponent(item.title) + "'>" + item.title + "</a></h2><p>" + item.snippet + " [...]</p></div>");
              });
          }
-         //
-         //
-         //------------------------------------------
-         //.empty() #results IF q IS EMPTY
-         //
      }
-     $.getJSON(URL, DATA, SUCCESS
-         /*, $(q).error.(function (err) {
-                 $('#results').append('<h1>Sembra che <span>Wiki</span> sia rotto :/</h1>');
-             }),*/
-     ).fail(function () {
+     $.getJSON(URL, DATA, SUCCESS).fail(function () {
          console.log('failed!')
      })
  });
