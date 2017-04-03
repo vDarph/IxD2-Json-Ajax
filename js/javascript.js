@@ -18,43 +18,42 @@
          , format: "json"
      }
      var SUCCESS = function (data) {
-         $("#results").empty();
-         $("#results").append("<h1>Risultati per <span>" + q + "</span></h1>");
-         if (data.query) {
-             $.each(data.query.search, function (i, item) {
-                 $("#results").append("<div class='tab'><h2><a href='http://" + language + ".wikipedia.org/wiki/" + encodeURIComponent(item.title) + "'>" + item.title + "</a></h2><p>" + item.snippet + " [...]</p></div>");
-             });
+             $("#results").empty();
+             $("#results").append("<h1>Risultati per <span>" + q + "</span></h1>");
+             //clear #results when no text is written the input field
+             if (q == '') {
+                 $('#results').empty();
+             };
+             if (data.query) {
+                 $.each(data.query.search, function (i, item) {
+                     $("#results").append("<div class='tab'><h2><a href='http://" + language + ".wikipedia.org/wiki/" + encodeURIComponent(item.title) + "'>" + item.title + "</a></h2><p>" + item.snippet + " [...]</p></div>");
+                 });
+             }
          }
-     }
-     $.getJSON(URL, DATA, SUCCESS).fail(function () {
-         console.log('failed!')
-     })
+         /*$.getJSON(URL, DATA, SUCCESS).error(function () {
+             alert('failed!')
+         })*/
  });
- //
- //
- //----------------------------------------
- //ERROR REPORT
- //
- /*      if ($(q) == '') {
-             $('#results').empty();
-         }; */
- //
  //----------------------------------------
  //INPUT AUTOCOMPLETE
  //
- /*      $("#searchterm").autocomplete({
-             source: function (request, response) {
-                 $.ajax({
-             url: "http://it.wikipedia.org/w/api.php"
+ $("#searchterm").autocomplete({
+     source: function (request, response) {
+         var m = $("#searchterm").val();
+         $.ajax({
+             url: "http://" + language + ".wikipedia.org/w/api.php"
              , dataType: "jsonp"
              , data: {
                  'action': "opensearch"
                  , 'format': "json"
-                 , 'search': request.term
+                 , 'search': m
+                 , 'limit': 10
+                 , 'namespace': 0
+                 , 'suggest': true
              }
              , success: function (data) {
                  response(data[1]);
              }
          });
      }
- });*/
+ });
